@@ -25,6 +25,14 @@ module.exports = (env, argv) => {
         Assets: path.resolve(__dirname, 'client/assets/'),
         '@root': path.resolve(__dirname),
       },
+      fallback: {
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+        crypto: require.resolve('crypto-browserify'),
+        vm: require.resolve('vm-browserify'),
+        buffer: require.resolve('buffer/'),
+        stream: require.resolve('stream-browserify'),
+      },
     },
     module: {
       rules: [
