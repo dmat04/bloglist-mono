@@ -12,14 +12,14 @@ export const baseApi = createApi({
       }
 
       return headers
-    }
+    },
   }),
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     doLogin: builder.mutation({
-      query: credentials => ({
+      query: (credentials) => ({
         url: '/login',
         method: 'POST',
-        body: credentials
+        body: credentials,
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
@@ -35,7 +35,7 @@ export const baseApi = createApi({
             dispatch(showError('An error occured while performing login'))
           }
         }
-      }
+      },
     }),
     // getBlogs: builder.query({
     //   query: () => '/blogs',
@@ -170,9 +170,9 @@ export const baseApi = createApi({
     //   query: userId => `/users/${userId}`,
     //   providesTags: (res, err, userId) => [{ type: 'User', id: userId }]
     // })
-  })
+  }),
 })
 
 export const {
-  useDoLoginMutation
+  useDoLoginMutation,
 } = baseApi

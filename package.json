@@ -4,10 +4,13 @@
   "description": "Simple boilerplate",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "start": "NODE_ENV=production node index.js",
     "build": "webpack --mode=production",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:client": "NODE_ENV=test jest --verbose --runInBand ./client",
+    "test:server": "NODE_ENV=test jest --verbose --runInBand ./server",
+    "start:test": "NODE_ENV=test node index.js"
   },
   "engines": {
     "node": ">=10.15"
@@ -17,7 +20,6 @@
   "dependencies": {
     "@babel/core": "^7.8.3",
     "@babel/polyfill": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.3",
     "@reduxjs/toolkit": "^1.9.5",
@@ -31,7 +33,8 @@
     "cross-env": "^7.0.0",
     "crypto-browserify": "^3.12.0",
     "css-loader": "^7.1.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.4.5",
+    "dotenv-webpack": "^8.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.20.0",
@@ -43,12 +46,14 @@
     "html-webpack-plugin": "^5.6.0",
     "immer": "^10.0.2",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.9.0",
     "module-alias": "^2.2.2",
     "mongoose": "^8.5.0",
     "mongoose-unique-validator": "^5.0.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "react-bootstrap": "^2.8.0",
@@ -71,17 +76,21 @@
     "webpack-cli": "^5.1.4"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.24.8",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "babel-jest": "^29.7.0",
     "cypress": "^13.13.0",
-    "dotenv": "^16.3.1",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-cypress": "^2.13.3",
     "eslint-plugin-jest": "^27.2.2",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "nodemon": "^2.0.2",
     "prettier": "3.0.1",
     "serve": "^14.2.0",
+    "supertest": "^7.0.0",
     "webpack-dev-middleware": "^7.2.1",
     "webpack-dev-server": "^5.0.4",
     "webpack-hot-middleware": "^2.25.0"
@@ -98,5 +107,18 @@
     "@controllers": "server/controllers",
     "@middleware": "server/middleware",
     "@util": "server/util"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "globalTeardown": "./server/tests/teardown.js",
+    "moduleNameMapper": {
+      "@root/(.*)": "<rootDir>/$1",
+      "@controllers/(.*)": "<rootDir>/server/controllers/$1",
+      "@middleware/(.*)": "<rootDir>/server/middleware/$1",
+      "@util/(.*)": "<rootDir>/server/util/$1"
+    },
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   }
 }

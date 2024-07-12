@@ -1,8 +1,9 @@
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { ToastContainer, Toast } from 'react-bootstrap'
 
 const Notification = () => {
-  const { message, isError } = useSelector(state => state.notification)
+  const { message, isError } = useSelector((state) => state.notification)
 
   if (!message) {
     return null
@@ -24,7 +25,7 @@ const Notification = () => {
         <Toast.Header closeButton={false}>
           <strong className="me-auto">{title}</strong>
         </Toast.Header>
-        <Toast.Body className='text-white'>
+        <Toast.Body className="text-white">
           {message}
         </Toast.Body>
       </Toast>

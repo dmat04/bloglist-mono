@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
@@ -44,3 +47,5 @@ describe('<BlogForm />', () => {
     expect(submitHandler.mock.calls[0][0]).toEqual(inputData)
   })
 })
+
+export default {}

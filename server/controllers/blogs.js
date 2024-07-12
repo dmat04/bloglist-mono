@@ -6,7 +6,7 @@ blogsRouter.get('/', async (request, response) => {
     .find({})
     .populate('user', { username: 1, name: 1 })
 
-  response.json(blogs)
+  return response.json(blogs)
 })
 
 blogsRouter.get('/:id', async (request, response) => {
@@ -15,15 +15,15 @@ blogsRouter.get('/:id', async (request, response) => {
     .populate('user', { username: 1, name: 1 })
 
   if (blog) {
-    response.json(blog)
-  } else {
-    response.status(404).end()
+    return response.json(blog)
   }
+
+  return response.status(404).end()
 })
 
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
-  const user = request.user
+  const { user } = request
 
   if (!user) {
     return response
@@ -38,11 +38,11 @@ blogsRouter.post('/', async (request, response) => {
   await user.save()
 
   const populated = await savedBlog.populate('user', { username: 1, name: 1 })
-  response.status(201).json(populated)
+  return response.status(201).json(populated)
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  const user = request.user
+  const { user } = request
   if (!user) {
     return response
       .status(401)
@@ -55,21 +55,20 @@ blogsRouter.delete('/:id', async (request, response) => {
 
   if (!blogToRemove) {
     return response.status(404).end()
-  } else if (blogToRemove.user.id === user.id) {
-    await Blog.findByIdAndRemove(blogToRemove.id)
-    user.blogs = user.blogs.filter(b => b.id !== blogToRemove.id)
+  } if (blogToRemove.user.id === user.id) {
+    await Blog.findByIdAndDelete(blogToRemove.id)
+    user.blogs = user.blogs.filter((b) => b.id !== blogToRemove.id)
     await user.save()
     return response.status(204).end()
-  } else {
-    return response
-      .status(401)
-      .json({ error: 'blog can only be deleted by user who created it' })
   }
+  return response
+    .status(401)
+    .json({ error: 'blog can only be deleted by user who created it' })
 })
 
 blogsRouter.put('/:id', async (request, response) => {
-  const body = request.body
-  const user = request.user
+  const { body } = request
+  const { user } = request
 
   if (!user) {
     return response
@@ -100,15 +99,15 @@ blogsRouter.put('/:id', async (request, response) => {
 
   if (updatedBlog) {
     const populated = await updatedBlog.populate('user', { username: 1, name: 1 })
-    response.json(populated)
-  } else {
-    response.status(500).end()
+    return response.json(populated)
   }
+
+  return response.status(500).end()
 })
 
 blogsRouter.post('/:id/comments', async (request, response) => {
-  const body = request.body
-  const user = request.user
+  const { body } = request
+  const { user } = request
 
   if (!user) {
     return response
@@ -133,17 +132,17 @@ blogsRouter.post('/:id/comments', async (request, response) => {
 
       const commentResponse = {
         comment: body.comment,
-        blog: populatedBlog
+        blog: populatedBlog,
       }
-      response.json(commentResponse)
-    } else {
-      response.status(500).end()
+      return response.json(commentResponse)
     }
-  } else {
-    return response
-      .status(400)
-      .json({ error: 'no comment supplied in request' })
+
+    return response.status(500).end()
   }
+
+  return response
+    .status(400)
+    .json({ error: 'no comment supplied in request' })
 })
 
 // blogsRouter.post('/like/:id', async (request, response) => {

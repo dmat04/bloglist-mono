@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
 import { useDoLoginMutation } from '../reducers/baseApi'
@@ -18,6 +18,7 @@ const LoginForm = ({ notifyOnSubmit }) => {
         dispatch(authSlice.actions.setUser(result.data))
       }
     } catch (ex) {
+      // eslint-disable-next-line no-console
       console.log(ex)
     } finally {
       notifyOnSubmit()
@@ -29,7 +30,7 @@ const LoginForm = ({ notifyOnSubmit }) => {
       <Form.Control
         type="text"
         value={username}
-        onChange={e => setUsername(e.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
         className="me-2"
         aria-label="Username"
@@ -37,12 +38,12 @@ const LoginForm = ({ notifyOnSubmit }) => {
       <Form.Control
         type="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
         className="me-2"
         aria-label="Password"
       />
-      <Button variant="outline-success" type='submit'>Login</Button>
+      <Button variant="outline-success" type="submit">Login</Button>
     </Form>
   )
 }
