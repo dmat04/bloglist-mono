@@ -26,8 +26,9 @@ const LoginForm = ({ notifyOnSubmit }) => {
   }
 
   return (
-    <Form className="d-flex" onSubmit={onSubmit}>
+    <Form className="d-flex login-form" onSubmit={onSubmit}>
       <Form.Control
+        id="username-input"
         type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
@@ -36,6 +37,7 @@ const LoginForm = ({ notifyOnSubmit }) => {
         aria-label="Username"
       />
       <Form.Control
+        id="password-input"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -43,7 +45,7 @@ const LoginForm = ({ notifyOnSubmit }) => {
         className="me-2"
         aria-label="Password"
       />
-      <Button variant="outline-success" type="submit">Login</Button>
+      <Button id="login-button" variant="outline-success" type="submit">Login</Button>
     </Form>
   )
 }

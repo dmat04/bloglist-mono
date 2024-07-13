@@ -14,7 +14,7 @@ const Notification = () => {
 
   return (
     <ToastContainer
-      className="p-3"
+      className="p-3 error"
       position="bottom-center"
       style={{ zIndex: 1 }}
     >
