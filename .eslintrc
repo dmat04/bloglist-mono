@@ -24,6 +24,6 @@
     ]
   },
   "plugins": [
-    "react", "jest"
+    "react", "jest", "cypress"
   ]
 }

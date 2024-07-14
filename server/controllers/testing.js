@@ -6,7 +6,6 @@ testingRouter.post('/reset', async (request, response) => {
   await Blog.deleteMany()
   await User.deleteMany()
 
-  console.log('TEST DB RESET')
   response.status(204).end()
 })
 
