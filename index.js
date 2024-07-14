@@ -1,9 +1,8 @@
-require('dotenv').config()
 require('module-alias/register')
+require('express-async-errors')
 const chokidar = require('chokidar')
 const express = require('express')
 const path = require('path')
-require('express-async-errors')
 
 const { PORT, inProduction } = require('@util/common')
 
@@ -14,7 +13,6 @@ app.use('/api', (req, res, next) => require('@root/server')(req, res, next)) // 
 if (!inProduction) {
   app.use('/api/test', (req, res, next) => require('@root/server/controllers/testing')(req, res, next)) // eslint-disable-line
 }
-
 
 /**
  *  Use "hot loading" in backend
@@ -63,5 +61,6 @@ if (!inProduction) {
 }
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`Started on port ${PORT}`)
 })

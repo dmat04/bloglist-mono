@@ -1,9 +1,13 @@
+/* eslint-disable no-console */
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate, useMatch } from 'react-router-dom'
-import { Card, Row, Col, Button, Modal, Spinner } from 'react-bootstrap'
-import Comments from './Comments'
+import {
+  Card, Row, Col, Button, Modal, Spinner,
+} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-import { useState } from 'react'
+// import { useState } from 'react'
+import Comments from './Comments'
 import { prettyCount, NotFound } from '../util/common'
 import { useGetBlogsQuery, useDeleteBlogMutation, useLikeBlogMutation } from '../reducers/blogApi'
 
@@ -17,20 +21,20 @@ const BlogDetails = () => {
     blog,
     isLoading,
     isSuccess,
-    isError
+    isError,
   } = useGetBlogsQuery(undefined, {
     selectFromResult: (result) => ({
       blog: result.data?.find((b) => b.id === match.params.id),
       isLoading: result.isLoading,
       isSuccess: result.isSuccess,
-      isError: result.isError
+      isError: result.isError,
     }),
   })
 
   const [deleteBlog, { isLoading: isDeleting }] = useDeleteBlogMutation()
   const [likeBlog, { isLoading: isLiking }] = useLikeBlogMutation()
 
-  if (isError || (isSuccess && !blog)) return <NotFound message='Blog not found' />
+  if (isError || (isSuccess && !blog)) return <NotFound message="Blog not found" />
 
   if (isLoading) return <div>Loading</div>
 
@@ -64,34 +68,35 @@ const BlogDetails = () => {
 
     return (
       <>
-        <Card className='mb-3'>
+        <Card className="mb-3">
           <Card.Body>
             <Card.Title as="h4">
               {blog.title}
             </Card.Title>
             <Card.Subtitle>
-              <Row className='mt-4'>
+              <Row className="mt-4">
                 <Col>
                   <Card.Link
-                    className='text-decoration-none'
+                    className="text-decoration-none"
                     href={blog.url}
-                    rel='noreferrer'
-                    target='_blank'>
+                    rel="noreferrer"
+                    target="_blank"
+                  >
                     {blog.url}
                   </Card.Link>
                 </Col>
               </Row>
-              <Row className='mt-2'>
-                <Col xs='auto'>
+              <Row className="mt-2">
+                <Col xs="auto">
                   {prettyCount(blog.comments.length, 'comment', 'comments', '0 comments')}
                 </Col>
-                <Col xs='auto'>
+                <Col xs="auto">
                   {prettyCount(blog.likes, 'like', 'likes', '0 likes')}
                 </Col>
-                <Col xs='auto'>
+                <Col xs="auto">
                   <span>Added by </span>
                   <LinkContainer to={`/users/${blog.user.id}`}>
-                    <Card.Link className='text-decoration-none'>
+                    <Card.Link className="text-decoration-none">
                       {blog.user.name}
                     </Card.Link>
                   </LinkContainer>
@@ -101,32 +106,37 @@ const BlogDetails = () => {
           </Card.Body>
           <Card.Footer>
             <Button
-              className='me-2'
-              size='sm'
-              variant='success'
+              className="me-2"
+              size="sm"
+              variant="success"
               onClick={likeHandler}
             >
               Like
               {
-                isLiking &&
+                isLiking
+                && (
                 <Spinner
                   as="span"
                   animation="border"
                   size="sm"
                   role="status"
                   aria-hidden="true"
-                  className='ms-2' />
+                  className="ms-2"
+                />
+                )
               }
             </Button>
             {
-              deleteHanlder &&
+              deleteHanlder
+              && (
               <Button
-                size='sm'
-                variant='danger'
+                size="sm"
+                variant="danger"
                 onClick={deleteHanlder}
               >
                 Delete blog
               </Button>
+              )
             }
           </Card.Footer>
         </Card>
@@ -141,14 +151,17 @@ const BlogDetails = () => {
           <Modal.Footer>
             <Button variant="danger" onClick={deleteAction}>
               {
-                isDeleting &&
+                isDeleting
+                && (
                 <Spinner
                   as="span"
                   animation="border"
                   size="sm"
                   role="status"
                   aria-hidden="true"
-                  className='me-2' />
+                  className="me-2"
+                />
+                )
               }
               Yes
             </Button>

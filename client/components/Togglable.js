@@ -1,4 +1,5 @@
-import { useState, forwardRef, useImperativeHandle } from 'react'
+/* eslint-disable react/prop-types */
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 
 const Togglable = forwardRef((props, refs) => {
@@ -11,20 +12,18 @@ const Togglable = forwardRef((props, refs) => {
     setVisible(!visible)
   }
 
-  useImperativeHandle(refs, () => {
-    return {
-      toggleVisibility,
-    }
-  })
+  useImperativeHandle(refs, () => ({
+    toggleVisibility,
+  }))
 
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.labelShow}</button>
+        <button type="button" onClick={toggleVisibility}>{props.labelShow}</button>
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button onClick={toggleVisibility}>{props.labelHide}</button>
+        <button type="button" onClick={toggleVisibility}>{props.labelHide}</button>
       </div>
     </div>
   )

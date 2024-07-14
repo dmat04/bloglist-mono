@@ -7,10 +7,9 @@ const store = configureStore({
   reducer: {
     notification: notificationSlice.reducer,
     auth: authSlice.reducer,
-    [baseApi.reducerPath]: baseApi.reducer
+    [baseApi.reducerPath]: baseApi.reducer,
   },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(baseApi.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(baseApi.middleware),
 })
 
 export default store

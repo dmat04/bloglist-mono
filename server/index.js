@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 const express = require('express')
+require('express-async-errors')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
@@ -6,14 +8,12 @@ const routes = require('@util/routes')
 const errorMiddleware = require('@middleware/errorMiddleware')
 const config = require('@util/common')
 
-console.log(config)
-
 mongoose.set('strictQuery', false)
 mongoose.connect(config.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB')
   })
-  .catch(error => {
+  .catch((error) => {
     console.log('Error connecting to MongoDB:', error)
   })
 

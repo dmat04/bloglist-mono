@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Badge, ListGroup, Container, Row, Col, Button } from 'react-bootstrap'
+import {
+  Badge, ListGroup, Container, Row, Col, Button,
+} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import BlogForm from './BlogForm'
 import { EmptyState, NotFound, prettyCount } from '../util/common'
@@ -11,7 +13,7 @@ const Blogs = () => {
     data: blogs = [],
     isLoading,
     isSuccess,
-    isError
+    isError,
   } = useGetBlogsQuery(undefined)
 
   const sortedBlogs = useMemo(() => {
@@ -27,14 +29,14 @@ const Blogs = () => {
     setBlogFormVisible(!blogFormVisible)
   }
 
-  if (isSuccess && blogs.length === 0) return <EmptyState message='No blogs yet' />
+  if (isSuccess && blogs.length === 0) return <EmptyState message="No blogs yet" />
   if (isLoading) return <div>Loading</div>
-  if (isError) return <NotFound message='An error occured while fetching blogs' />
+  if (isError) return <NotFound message="An error occured while fetching blogs" />
 
   return (
     <Container fluid>
-      <Row className='mb-4'>
-        <Col className='h3 text-muted'>
+      <Row className="mb-4">
+        <Col className="h3 text-muted">
           Blogs
         </Col>
       </Row>
@@ -59,23 +61,23 @@ const Blogs = () => {
           <ListGroup>
             {
               sortedBlogs
-                .map((blog) =>
+                .map((blog) => (
                   <LinkContainer key={blog.id} to={`/blogs/${blog.id}`}>
                     <ListGroup.Item
                       key={blog.id}
                       action
-                      className='d-flex justify-content-between align-items-start'
+                      className="d-flex justify-content-between align-items-start"
                     >
-                      <div className='ms-2 me-auto'>
-                        <div className='fw-bold lh-lg fs-5'>
+                      <div className="ms-2 me-auto">
+                        <div className="fw-bold lh-lg fs-5">
                           {blog.title}
                         </div>
-                        <div className='fs-6 fw-light'>
+                        <div className="fs-6 fw-light">
                           {prettyCount(
                             blog.comments.length ?? 0,
                             'comment',
                             'comments',
-                            'No comments'
+                            'No comments',
                           )}
                         </div>
                       </div>
@@ -84,12 +86,12 @@ const Blogs = () => {
                       </Badge>
                     </ListGroup.Item>
                   </LinkContainer>
-                )
+                ))
             }
           </ListGroup>
         </Col>
       </Row>
-    </Container >
+    </Container>
   )
 }
 

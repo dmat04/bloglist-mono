@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import { ListGroup, Button, Form, InputGroup, Card, Spinner } from 'react-bootstrap'
+import React, { useState } from 'react'
+import {
+  ListGroup, Button, Form, InputGroup, Card, Spinner,
+} from 'react-bootstrap'
 import { EmptyState } from '../util/common'
 import { usePostCommentMutation } from '../reducers/blogApi'
 
@@ -13,6 +15,7 @@ const Comments = ({ blog }) => {
     try {
       await postComment({ blog, comment })
     } catch (ex) {
+      // eslint-disable-next-line no-console
       console.log(ex)
     }
 
@@ -21,23 +24,26 @@ const Comments = ({ blog }) => {
 
   return (
     <>
-      <Form onSubmit={onSubmit} className='mb-3'>
+      <Form onSubmit={onSubmit} className="mb-3">
         <InputGroup>
           <Form.Control
             placeholder="Add a comment"
             value={comment}
-            onChange={e => setComment(e.target.value)}
+            onChange={(e) => setComment(e.target.value)}
           />
-          <Button variant="success" type="submit" disabled={comment.length > 0 ? false : true}>
+          <Button variant="success" type="submit" disabled={!(comment.length > 0)}>
             {
-              isLoading &&
+              isLoading
+              && (
               <Spinner
                 as="span"
                 animation="border"
                 size="sm"
                 role="status"
                 aria-hidden="true"
-                className='me-2' />
+                className="me-2"
+              />
+              )
             }
             Comment
           </Button>
@@ -45,29 +51,32 @@ const Comments = ({ blog }) => {
       </Form>
 
       {
-        blog.comments.length > 0 &&
+        blog.comments.length > 0
+        && (
         <Card>
           <Card.Header as="h5">
             Comments
           </Card.Header>
-          <ListGroup variant='flush'>
+          <ListGroup variant="flush">
             {
               blog.comments
-                .map((comment, i) =>
+                .map((comment) => (
                   <ListGroup.Item
-                    key={`${blog.id}_${i}`}
-                    className='d-flex justify-content-between align-items-start'
+                    // key={`${blog.id}_${i}`}
+                    key={blog.id}
+                    className="d-flex justify-content-between align-items-start"
                   >
                     {comment}
                   </ListGroup.Item>
-                )
+                ))
             }
           </ListGroup>
         </Card>
+        )
       }
       {
-        !blog.comments.length &&
-        <EmptyState message='No comments yet' />
+        !blog.comments.length
+        && <EmptyState message="No comments yet" />
       }
     </>
   )
