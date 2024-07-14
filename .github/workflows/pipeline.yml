@@ -21,6 +21,8 @@ jobs:
         run: npm run build
       - name: test
         run: npm run test:server
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       - name: E2E test
         run: npm run test:e2e
       - uses: superfly/flyctl-actions/setup-flyctl@master
