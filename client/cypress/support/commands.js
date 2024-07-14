@@ -23,37 +23,37 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.Commands.add("createUser", ({ username, name, password }) => {
-  cy.request("POST", `${Cypress.env("BACKEND")}/users`, {
+Cypress.Commands.add('createUser', ({ username, name, password }) => {
+  cy.request('POST', `${Cypress.env('BACKEND')}/users`, {
     username,
     name,
     password,
-  });
-});
+  })
+})
 
-Cypress.Commands.add("loginUser", ({ username, password }) => {
-  cy.request("POST", `${Cypress.env("BACKEND")}/login`, {
+Cypress.Commands.add('loginUser', ({ username, password }) => {
+  cy.request('POST', `${Cypress.env('BACKEND')}/login`, {
     username,
     password,
   }).then(({ body }) => {
-    localStorage.setItem("LOCAL_STORAGE_KEY_USER", JSON.stringify(body));
-    cy.visit("");
-  });
-});
+    localStorage.setItem('LOCAL_STORAGE_KEY_USER', JSON.stringify(body))
+    cy.visit('')
+  })
+})
 
-Cypress.Commands.add("postBlog", ({ title, author, url }) => {
-  const token = JSON.parse(
-    localStorage.getItem("LOCAL_STORAGE_KEY_USER"),
-  ).token;
+Cypress.Commands.add('postBlog', ({ title, author, url }) => {
+  const { token } = JSON.parse(
+    localStorage.getItem('LOCAL_STORAGE_KEY_USER'),
+  )
 
   cy.request({
-    url: `${Cypress.env("BACKEND")}/blogs`,
-    method: "POST",
+    url: `${Cypress.env('BACKEND')}/blogs`,
+    method: 'POST',
     body: { title, author, url },
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
+  })
 
-  cy.visit("");
-});
+  cy.visit('')
+})

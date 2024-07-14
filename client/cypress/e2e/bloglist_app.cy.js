@@ -1,35 +1,35 @@
-describe("Blog app", function () {
+describe('Blog app', () => {
   const user1 = {
-    username: "dmat",
-    name: "Matej Djerdji",
-    password: "tejma",
-  };
+    username: 'dmat',
+    name: 'Matej Djerdji',
+    password: 'tejma',
+  }
 
   const user2 = {
-    username: "otherMat",
-    name: "Other Djerdji",
-    password: "tejma",
-  };
+    username: 'otherMat',
+    name: 'Other Djerdji',
+    password: 'tejma',
+  }
 
-  const initialBlog = {
-    title: "Initial E2E testing blog entry",
-    author: "Some Author Jr.",
-    url: "www.fancyblogpost.com/dothis",
-  };
+  // const initialBlog = {
+  //   title: 'Initial E2E testing blog entry',
+  //   author: 'Some Author Jr.',
+  //   url: 'www.fancyblogpost.com/dothis',
+  // }
 
-  beforeEach(function () {
-    cy.request("POST", `${Cypress.env("BACKEND")}/test/reset`);
-    cy.createUser(user1);
-    cy.createUser(user2);
-    cy.visit("");
-  });
+  beforeEach(() => {
+    cy.request('POST', `${Cypress.env('BACKEND')}/test/reset`)
+    cy.createUser(user1)
+    cy.createUser(user2)
+    cy.visit('')
+  })
 
-  it("Login form is shown", function () {
-    cy.get(".login-form").as("loginForm");
-    cy.get("@loginForm").get("#username-input");
-    cy.get("@loginForm").get("#password-input");
-    cy.get("@loginForm").get("#login-button");
-  });
+  it('Login form is shown', () => {
+    cy.get('.login-form').as('loginForm')
+    cy.get('@loginForm').get('#username-input')
+    cy.get('@loginForm').get('#password-input')
+    cy.get('@loginForm').get('#login-button')
+  })
 
   // describe("Login", function () {
   //   it("succeeds with correct credentials", function () {
@@ -194,4 +194,4 @@ describe("Blog app", function () {
   //     });
   //   });
   // });
-});
+})

@@ -71,11 +71,9 @@ module.exports = (env, argv) => {
     },
     plugins: [
       ...additionalPlugins,
-      // new Dotenv({}),
       new webpack.DefinePlugin({
         'process.env.BUILT_AT': JSON.stringify(new Date().toISOString()),
         'process.env.NODE_ENV': JSON.stringify(mode),
-        // 'process.env.MONGODB_URI': process.env.MONGODB_URI, //  'mongodb+srv://matejdjerdji:Cff8jzcmlZDSMVD6@cluster0.03cooj8.mongodb.net/prod?retryWrites=true&w=majority',
       }),
       // Skip the part where we would make a html template
       new HtmlWebpackPlugin({
