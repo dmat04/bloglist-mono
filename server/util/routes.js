@@ -11,4 +11,9 @@ app.use('/login', loginRouter)
 app.use('/blogs', userExtractor, blogsRouter)
 app.use('/users/', usersRouter)
 
+app.get('/health', () => {
+  throw new Error('Failing health check')
+  // res.send('ok')
+})
+
 module.exports = app
