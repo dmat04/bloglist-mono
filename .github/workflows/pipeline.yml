@@ -59,6 +59,6 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          description: to https://autumn-rain-6245.fly.dev/ by dmat04
-          text: A new version of Pokedex just deployed
+          description: to https://bloglist-mono1.fly.dev/ by dmat04
+          text: A new version of Bloglist just deployed
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
