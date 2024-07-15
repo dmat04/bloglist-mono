@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
@@ -32,3 +35,30 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Send discord notification
+        if: ${{ ! success() }}
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: error
+          description: The commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.committer.username }} broke the build
+          text: Build failed
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    if: ${{ ! contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+    steps:
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+      - name: Send discord notification
+        if: success()
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          description: to https://autumn-rain-6245.fly.dev/ by dmat04
+          text: A new version of Pokedex just deployed
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
